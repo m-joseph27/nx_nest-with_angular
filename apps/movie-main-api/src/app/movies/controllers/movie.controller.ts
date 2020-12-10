@@ -43,5 +43,6 @@ export class MovieController {
     const movie = await this.movieService.getMovieByID(id);
     return movie;
   }
+  
 
 }
