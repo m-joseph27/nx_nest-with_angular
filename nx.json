@@ -25,6 +25,13 @@
   "projects": {
     "movie-main-api": {
       "tags": []
+    },
+    "movie-project": {
+      "tags": []
+    },
+    "movie-project-e2e": {
+      "tags": [],
+      "implicitDependencies": ["movie-project"]
     }
   }
 }

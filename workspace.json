@@ -50,10 +50,125 @@
           }
         }
       }
+    },
+    "movie-project": {
+      "root": "apps/movie-project",
+      "sourceRoot": "apps/movie-project/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/movie-project",
+            "index": "apps/movie-project/src/index.html",
+            "main": "apps/movie-project/src/main.tsx",
+            "polyfills": "apps/movie-project/src/polyfills.ts",
+            "tsConfig": "apps/movie-project/tsconfig.app.json",
+            "assets": [
+              "apps/movie-project/src/favicon.ico",
+              "apps/movie-project/src/assets"
+            ],
+            "styles": ["apps/movie-project/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/movie-project/src/environments/environment.ts",
+                  "with": "apps/movie-project/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "movie-project:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "movie-project:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/movie-project/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/movie-project/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "movie-project-e2e": {
+      "root": "apps/movie-project-e2e",
+      "sourceRoot": "apps/movie-project-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/movie-project-e2e/cypress.json",
+            "tsConfig": "apps/movie-project-e2e/tsconfig.e2e.json",
+            "devServerTarget": "movie-project:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "movie-project:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/movie-project-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
     }
   },
   "cli": {
     "defaultCollection": "@nrwl/nest"
   },
-  "defaultProject": "movie-main-api"
+  "defaultProject": "movie-main-api",
+  "schematics": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  }
 }
