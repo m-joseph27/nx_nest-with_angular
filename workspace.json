@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "projects": {
+    "movie-main-api": {
+      "root": "apps/movie-main-api",
+      "sourceRoot": "apps/movie-main-api/src",
+      "projectType": "application",
+      "prefix": "movie-main-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/movie-main-api",
+            "main": "apps/movie-main-api/src/main.ts",
+            "tsConfig": "apps/movie-main-api/tsconfig.app.json",
+            "assets": ["apps/movie-main-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/movie-main-api/src/environments/environment.ts",
+                  "with": "apps/movie-main-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "movie-main-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/movie-main-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/movie-main-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "movie-main-api"
+}
