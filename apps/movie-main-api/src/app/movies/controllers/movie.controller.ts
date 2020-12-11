@@ -3,7 +3,9 @@ import {
   Post,
   Body,
   Get,
-  Param
+  Param,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { MovieService } from '../services/movie.service';
 
@@ -38,12 +40,32 @@ export class MovieController {
     return movies;
   }
 
-  @Get('id')
-  async getMovieID(@Param('id') id) {
-    const movie = await this.movieService.getMovieByID(id);
+  @Get(':id')
+  getMovieID(@Param('id') id: string) {
+    const movie = this.movieService.getMovieByID(id);
     return movie;
   }
 
-  // @Put()
+  @Put(':id')
+  async updateMovie(
+    @Param('id') productId: string,
+    @Body('title') movieTitle: string,
+    @Body('description') movieDesc: string,
+    @Body('author') movieAuthor: string,
+  ) {
+    await this.movieService.updateMovie(
+      productId,
+      movieTitle,
+      movieDesc,
+      movieAuthor
+    );
+    return { message: 'Movie Succesfully Updated' }
+  }
+
+  @Delete(':id')
+  async deleteMovie(@Param('id') movieId: string) {
+    const movie = await this.movieService.deleteMovie(movieId);
+    return movie;
+  }
 
 }
